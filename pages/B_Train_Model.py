@@ -52,7 +52,6 @@ class LinearRegression(object) :
         self.num_iterations = num_iterations 
         self.cost_history=[]
 
-    # Checkpoint 2: Hypothetical function h(x) 
     def predict(self, X): 
         '''
         Make a prediction using coefficients self.W and input features X
@@ -71,7 +70,6 @@ class LinearRegression(object) :
         prediction = X_transform.dot(self.W)
         return prediction
 
-    # Checkpoint 3: Update weights in gradient descent 
     def update_weights(self):     
         '''
         Update weights of regression model by computing the 
@@ -97,7 +95,6 @@ class LinearRegression(object) :
         self.W = self.W - self.learning_rate * dW
         return self
     
-    # Checkpoint 4: Model training 
     def fit(self, X, Y): 
         '''
         Use gradient descent to update the weights for self.num_iterations
@@ -140,7 +137,7 @@ class LinearRegression(object) :
             st.write({str(err)})
         return X_normalized
     
-    # Checkpoint 5: Return regression coefficients
+
     def get_weights(self, model_name, features):
         '''
         This function prints the coefficients of the trained models
@@ -205,7 +202,7 @@ class PolynomailRegression(LinearRegression):
             st.write({str(err)})
         return X_transform
     
-    # Checkpoint 6: Model training
+
     def fit(self, X, Y):
         '''
         Use gradient descent to update the weights for self.num_iterations
@@ -247,7 +244,6 @@ class PolynomailRegression(LinearRegression):
         
         
     
-    # Checkpoint 7: Make a prediction with Polynomial Regression model
     def predict(self, X):
         '''
         Make a prediction using coefficients self.W and input features X
