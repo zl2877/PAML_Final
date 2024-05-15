@@ -17,7 +17,7 @@ st.markdown("# Practical Applications of Machine Learning (PAML)")
 
 #############################################
 
-st.markdown("### Final Project - <Mall customers>")
+st.markdown("### Final Project - <Mall Customers Analysis ML Model>")
 
 #############################################
 
@@ -339,4 +339,4 @@ if df is not None:
 
     st.markdown('## Preprocessed Data')
     st.dataframe(df)
-    st.write('Continue to Train Model')
+    st.write('Continue to **Train Model**')

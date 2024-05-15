@@ -1,5 +1,8 @@
 import streamlit as st                  # pip install streamlit
 from helper_functions import fetch_dataset
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
 
 #############################################
 
@@ -7,7 +10,7 @@ st.markdown("# Practical Applications of Machine Learning (PAML)")
 
 #############################################
 
-st.markdown("### Final Project - <project title>")
+st.markdown("### Final Project - <Mall Customers Analysis ML Model>")
 
 #############################################
 
@@ -20,11 +23,11 @@ df = fetch_dataset()
 
 if df is not None:
     st.markdown("### Get Performance Metrics")
-    metric_options = ['placeholder']
+    metric_options = ['']
 
-    model_options = ['placeholder']
+    model_options = ['']
 
-    trained_models = ['placeholder']
+    trained_models = ['K-means Clustering', 'Regression Analysis', 'Model Performance Comparison']
 
     # Select a trained classification model for evaluation
     model_select = st.multiselect(
@@ -32,7 +35,73 @@ if df is not None:
         options=trained_models
     )
 
-    if (model_select):
+    if 'K-means Clustering' in model_select:
+        st.markdown("### K-means Clustering")
+
+        # Select the features of annual income and spending score to cluster
+        X = df.iloc[:, [3,4]].values
+
+        # Standardize the data for k-means
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+
+        # Perform k-means clustering
+        kmeans = KMeans(n_clusters=5)
+        y_kmeans = kmeans.fit_predict(X_scaled)
+
+        # Create a trace for each cluster
+        cluster_traces = []
+        colors = ['red', 'blue', 'green', 'cyan', 'magenta']
+
+        for i in range(5):
+            cluster_trace = go.Scatter(
+                x=X[y_kmeans == i, 0],
+                y=X[y_kmeans == i, 1],
+                mode = 'markers',
+                marker=dict(size=10, color=colors[i]),
+                name=f'Cluster {i+1}'
+            )
+            cluster_traces.append(cluster_trace)
+
+        # Create a trace for centroids
+        centroid_trace = go.Scatter(
+            x=kmeans.cluster_centers_[:, 0],
+            y=kmeans.cluster_centers_[:, 1],
+            mode='markers',
+            marker=dict(size=12, color='yellow', symbol='cross'),
+            name='Centroids'
+        )
+
+        # Create the layout
+        layout = go.Layout(
+            title='Clusters of Customers',
+            xaxis=dict(title='Annual Income (k$)'),
+            yaxis=dict(title='Spending Score (1-100)'),
+            legend=dict(x=0.7, y=0.95),
+            font=dict(size=14, color="black"),
+            paper_bgcolor="lightgray",
+            plot_bgcolor="white",
+        )
+        fig = go.Figure(data=cluster_traces + [centroid_trace], layout=layout)
+        st.plotly_chart(fig)
+
+        # Initialize a list to score the WCSS values
+        wcss = []
+
+        # Try different values of K (1-10) and calculate WCSS for each K
+        for k in range(1,11):
+            kmeans = KMeans(n_clusters=k, init='k-means++', random_state=42)
+            kmeans.fit(X_scaled)
+            wcss.append(kmeans.inertia_)
+
+        # Plot the Elbow Method graph
+        st.pyplot(plt.figure(figsize=(8, 6)))
+        plt.plot(range(1, 11), wcss, marker='o', linestyle='-', color='b')
+        plt.title('Elbow Method for Optimal K')
+        plt.xlabel('Number of Clusters (K)')
+        plt.ylabel('WCSS')
+        plt.grid()
+
         st.write(
             'You selected the following models for evaluation: {}'.format(model_select))
 
@@ -68,4 +137,4 @@ if df is not None:
         st.write('You selected the model: {}'.format(model_select))
         st.session_state['deploy_model'] = st.session_state[model_select]
 
-    st.write('Continue to Deploy Model')
+    st.write('Continue to **Deploy Model**')

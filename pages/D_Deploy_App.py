@@ -5,7 +5,7 @@ st.markdown("# Practical Applications of Machine Learning (PAML)")
 
 #############################################
 
-st.markdown("### Final Project - <project title>")
+st.markdown("### Final Project - <Mall Customers Analysis ML Model>")
 
 #############################################
 
@@ -18,10 +18,10 @@ if 'data' in st.session_state:
     df = st.session_state['data']
 else:
     st.write(
-        '### The <project> Application is under construction. Coming to you soon.')
+        '### The <Mall Customers Analysis ML Model> Application is under construction. Coming to you soon.')
 
 # Deploy App
 if df is not None:
-    st.markdown('### <Deployment app name>')
+    st.markdown('### <Mall Customers>')
 
     st.markdown('#### Some descriptions about the deployment app')

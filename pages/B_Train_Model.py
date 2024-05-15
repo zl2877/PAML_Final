@@ -15,7 +15,7 @@ st.markdown("# Practical Applications of Machine Learning (PAML)")
 
 #############################################
 
-st.markdown("### Final Project - <project title>")
+st.markdown("### Final Project - <Mall Customers Analysis ML Model>")
 
 #############################################
 
@@ -643,4 +643,4 @@ if df is not None:
         except Exception as e:
             print(e)
 
-    st.write('Continue to Test Model')
+    st.write('Continue to **Test Model**')
